@@ -1,4 +1,4 @@
-package com.xym.zookeeper
+package com.xym.zookeeper.zkapi
         ;
 
 import org.apache.zookeeper.WatchedEvent;
@@ -21,6 +21,7 @@ public class Test01 implements Watcher {
 
         ZooKeeper keeper = null;
         try {
+            //连接的建立是异步进行的所以需要同步处理（connectedSemaphore）
             keeper = new ZooKeeper("192.168.2.135:2181", 5000, new Test01());
         } catch (IOException e) {
             e.printStackTrace();

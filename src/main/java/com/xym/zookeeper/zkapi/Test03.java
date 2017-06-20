@@ -1,4 +1,4 @@
-package com.xym.zookeeper
+package com.xym.zookeeper.zkapi
         ;
 
 import org.apache.zookeeper.*;
