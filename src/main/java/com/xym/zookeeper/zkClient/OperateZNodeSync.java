@@ -22,6 +22,7 @@ public class OperateZNodeSync implements Watcher {
     public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
         OperateZNodeSync operateZNodeSync = new OperateZNodeSync();
         zooKeeper = new ZooKeeper(connStr, 5000, operateZNodeSync);
+        countDownLatch.await();
 
         //删除节点及其子节点
         if (operateZNodeSync.existsNode()) {

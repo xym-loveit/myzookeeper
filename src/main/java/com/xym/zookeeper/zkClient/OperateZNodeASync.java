@@ -22,7 +22,7 @@ public class OperateZNodeASync implements Watcher {
     public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
         OperateZNodeASync operateZNodeSync = new OperateZNodeASync();
         zooKeeper = new ZooKeeper(connStr, 5000, operateZNodeSync);
-
+        countDownLatch.await();
 
         operateZNodeSync.create();
         operateZNodeSync.createChildNode();
