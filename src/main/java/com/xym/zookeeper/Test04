@@ -1,0 +1,56 @@
+package com.xym.zookeeper
+        ;
+
+import org.apache.zookeeper.*;
+
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+
+/**
+ * 异步创建znode临时节点
+ *
+ * @author xym
+ */
+public class Test04 implements Watcher {
+
+    private static CountDownLatch connectedSemaphore = new CountDownLatch(1);
+
+    public static void main(String[] args) {
+
+        try {
+            ZooKeeper zooKeeper = new ZooKeeper("192.168.2.135:2181", 5000, new Test04());
+            connectedSemaphore.await();
+
+            zooKeeper.create("/test-ephemeral-", "test".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, new IStringCallBack(), "i am context");
+
+            zooKeeper.create("/test-ephemeral-", "test".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, new IStringCallBack(), "i am context");
+
+            zooKeeper.create("/test-ephemeral-", "test".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL, new IStringCallBack(), "i am context");
+
+            Thread.sleep(Integer.MAX_VALUE);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void process(WatchedEvent watchedEvent) {
+        if (watchedEvent.getState() == Event.KeeperState.SyncConnected) {
+            connectedSemaphore.countDown();
+        }
+
+    }
+
+}
+
+//异步回调接口
+class IStringCallBack implements AsyncCallback.StringCallback {
+    public void processResult(int rc, String path, Object ctx, String name) {
+        System.out.println("创建节点结果：[" + rc + "," + path + "," + ctx + ",real path name:" + name);
+    }
+
+}
