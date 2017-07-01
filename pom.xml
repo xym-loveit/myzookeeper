@@ -35,6 +35,13 @@
             <artifactId>zookeeper</artifactId>
             <version>3.4.8</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.33</version>
+        </dependency>
+
 
     </dependencies>
 </project>
